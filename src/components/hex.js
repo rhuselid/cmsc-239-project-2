@@ -13,8 +13,8 @@ export default class HexChart extends Component {
   render() {
     const {hoveredNode} = this.state;
     const {data} = this.props;
-    const posData = data.filter(row => row.positivity > -0.075 && row.positivity < 0.475);
-    const reformatedData = posData.filter(row => row.subjectivity > 0.225 && row.subjectivity < 0.775);
+    const posData = data.filter(row => row.positivity > -0.08 && row.positivity < 0.48);
+    const reformatedData = posData.filter(row => row.subjectivity > 0.21 && row.subjectivity < 0.79);
     // getX={d => d.positivity > -0.01 ? d.positivity : d.positivity < 0.41 ? d.positivity : null}
     // getY={d => d.subjectivity > 0.29 ? d.subjectivity : d.subjectivity < 0.71 ? d.subjectivity : null}
 
@@ -40,6 +40,11 @@ export default class HexChart extends Component {
                                                             'sample_review':d[0].description.slice(0,80) + '...'}})}
             colorRange={['white', 'blue']}
             radius={13}
+            style={{
+              stroke: '#125C77',
+              strokeLinejoin: 'round',
+              strokeOpacity: 0.1
+            }}
             data={reformatedData}
           >
           { /* {hoveredNode !== false && <Hint hoveredNode={hoveredNode} />} 
