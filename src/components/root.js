@@ -48,7 +48,7 @@ class RootComponent extends React.Component {
         <div>{longBlock}</div>
         <ExampleChart data={data}/>
         <div>{longBlock}</div>
-        <HexChart data={data[1]}/>
+        <HexChart data={data[1].slice(0,15000)}/>
         <div>{longBlock}</div>
         <CountryBars data={data[2]}/>
         <CountryBar2 data={data[2]}/>
