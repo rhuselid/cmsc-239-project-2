@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {shuffle} from '../utils'
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
+// this is resulting from the below commented lines, which select countries with >1000 samples, should have a more elegant way doing it
 const validCountries = ["Italy", "US", "Australia", "Argentina", "France", "Spain", "Chile", "New Zealand", "Austria", "South Africa", "Portugal", "Germany"]
 const selectedCountries = validCountries.reduce((acc, cur) => {
   acc[cur] = true;
@@ -31,7 +32,7 @@ export default class Scatter1_selectYAxis extends Component {
     const subsetData = data
       // remove those prices are 0, can't has 0 in log scale, or either use padding
       .filter(row => row.price > 0)
-      // uncomment below two lines to filter the same way as Robbie's
+      // uncomment below lines to filter the same way as Robbie's
       // .filter(row => row.positivity > -0.075 && row.positivity < 0.475)
       // .filter(row => row.subjectivity > 0.225 && row.subjectivity < 0.775)
     // randomly sample data, change the value below or pass data directly to reformatedData
@@ -55,19 +56,21 @@ export default class Scatter1_selectYAxis extends Component {
 
     return (
       <div>
-        {Object.keys(selectedCountries).map(key => {
-        return (
-          <div key={key} className="countries checkbox">
-            <input
-              type="checkbox"
-              value={selectedCountries[key]}
-              onClick={() => {
-                selectedCountries[key] = !selectedCountries[key];
-                this.setState({selectedCountries});
-              }}/>
-            {key}
-          </div>);
-        })}
+        <div className="checkbox">
+          {Object.keys(selectedCountries).map(key => {
+            return (
+              <div key={key} className="countries checkbox">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  onClick={() => {
+                    selectedCountries[key] = !selectedCountries[key];
+                    this.setState({selectedCountries});
+                  }}/>
+                {key}
+              </div>);
+          })}
+        </div>
         <XYPlot
           width={500}
           height={500}
