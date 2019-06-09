@@ -24,7 +24,7 @@ export default class ExampleChart extends Component {
   render() {
     const {value, keyOfInterest} = this.state;
     const {data} = this.props;
-    const preppedData = Object.entries(groupBy(data, keyOfInterest)).map(([key, values]) => {
+    const preppedData = Object.entries(groupBy(data[0], keyOfInterest)).map(([key, values]) => {
       return {key, size: values.length};
     });
     return (
@@ -43,7 +43,7 @@ export default class ExampleChart extends Component {
         >
           {value !== false && <Hint value={value} />}
         </RadialChart>
-        {Object.keys(data[0]).map(key => {
+        {Object.keys(data[0][0]).map(key => {
           return (<button
             key={key}
             onClick={() => this.setState({keyOfInterest: key})}

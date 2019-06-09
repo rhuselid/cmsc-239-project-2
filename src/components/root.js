@@ -1,6 +1,9 @@
 import React from 'react';
 import {csv} from 'd3-fetch';
 import ExampleChart from './example-chart';
+import HexChart from './hex';
+import CountryBars from './country_bar_charts';
+import CountryBar2 from './country_bar2';
 
 const longBlock = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -20,7 +23,10 @@ class RootComponent extends React.Component {
   }
 
   componentWillMount() {
-    csv('data/sample-data.csv')
+    Promise.all([
+    csv('data/sample-data.csv'),
+    csv('data/df_with_country_groups.csv'),
+    csv('data/countrys_grouped_by_taste.csv')])
       .then(data => {
         this.setState({
           data,
@@ -42,6 +48,11 @@ class RootComponent extends React.Component {
         <div>{longBlock}</div>
         <ExampleChart data={data}/>
         <div>{longBlock}</div>
+        <HexChart data={data[1]}/>
+        <div>{longBlock}</div>
+        <CountryBars data={data[2]}/>
+        <CountryBar2 data={data[2]}/>
+        
       </div>
     );
   }
