@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {shuffle} from '../utils'
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
 // this is resulting from the commented lines under render(), which select countries with >1000 samples, should have a more elegant way doing it
