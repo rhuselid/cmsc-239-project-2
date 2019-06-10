@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {shuffle} from '../utils'
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
 export default class Scatter1_selectYAxis extends Component {
@@ -16,21 +15,9 @@ export default class Scatter1_selectYAxis extends Component {
     // https://github.com/uber/react-vis/blob/master/docs/xy-plot.md
     // https://github.com/uber/react-vis/blob/master/docs/mark-series.md
 
-    // const {hoveredNode} = this.state;
     const {yVar} = this.state;
-    // console.log(yVar)
 
-    const {data} = this.props;
-    const totalSize = data.length;
-    const subsetData = data
-      // remove those prices are 0, can't has 0 in log scale, or either use padding
-      .filter(row => row.price > 0)
-      // uncomment below two lines to filter the same way as Robbie's
-      // .filter(row => row.positivity > -0.075 && row.positivity < 0.475)
-      // .filter(row => row.subjectivity > 0.225 && row.subjectivity < 0.775)
-    // randomly sample data, change the value below or pass data directly to reformatedData
-    const sampleSize = 10000;
-    const sampledData = shuffle(subsetData).slice(0, sampleSize);
+    const {sampledData, sampleSize, totalSize} = this.props;
     const reformatedData = sampledData
       .map(row => ({x: Number(row.price), y: Number(row[yVar])}));
     
@@ -57,9 +44,8 @@ export default class Scatter1_selectYAxis extends Component {
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis 
-            title="Price"/>
-          <YAxis title={yVar}/>
+          <XAxis/>
+          <YAxis/>
           <ChartLabel
             text={title}
             className="title"
@@ -69,8 +55,24 @@ export default class Scatter1_selectYAxis extends Component {
             style={{
               textAnchor: 'middle',
               fontWeight: 10000
-            }}
-            />
+            }}/>
+          <ChartLabel
+            text="Price"
+            className="alt-x-label"
+            includeMargin={false}
+            xPercent={0.45}
+            yPercent={1.225}/>
+          <ChartLabel
+            text={yVar}
+            className="alt-y-label"
+            includeMargin={false}
+            xPercent={-0.09}
+            yPercent={0.5}
+            style={{
+              transform: 'rotate(-90)',
+              textAnchor: 'end',
+              title: {fontSize: '20px'}
+            }}/>
         </XYPlot>
       </div>
     );

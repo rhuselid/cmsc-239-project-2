@@ -7,6 +7,8 @@ import HexChart from './hex';
 import CountryBars from './country_bar_charts';
 import CountryBar2 from './country_bar2';
 
+import {shuffle} from '../utils'
+
 const longBlock = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -36,15 +38,26 @@ class RootComponent extends React.Component {
     csv('data/df_with_country_groups.csv'),
     csv('data/countrys_grouped_by_taste.csv')])
       .then(data => {
+
+        // data manipulations here
+        const totalSize = data[1].length;
+        const sampleSize = 10000;
+        // randomly sample data df_with_country_groups, according to the value above and remove those prices are 0, can't has 0 in log scale, or either use padding
+        const subsetData = data[1].filter(row => row.price > 0)
+        const sampledData = shuffle(subsetData).slice(0, sampleSize);
+
         this.setState({
           data,
+          sampledData,
+          totalSize,
+          sampleSize,
           loading: false
         });
       });
   }
 
   render() {
-    const {loading, data} = this.state;
+    const {loading, data, sampledData, totalSize, sampleSize} = this.state;
     if (loading) {
       return <h1>LOADING</h1>;
     }
@@ -60,12 +73,12 @@ class RootComponent extends React.Component {
         */}
 
         <div>{longBlock}</div>
-        <Scatter1_selectYAxis data={data[1]}/>
+        <Scatter1_selectYAxis sampledData={sampledData} sampleSize={sampleSize} totalSize={totalSize}/>
         <div>{longBlock}</div>
-        <Scatter2_selectCountries data={data[1]}/>
+        <Scatter2_selectCountries sampledData={sampledData} sampleSize={sampleSize} totalSize={totalSize}/>
 
         <div>{longBlock}</div>
-        <HexChart data={data[1].slice(0, 10000)}/>
+        <HexChart data={sampledData}/>
         <br />
         <br />
         <br />

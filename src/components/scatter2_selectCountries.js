@@ -28,22 +28,16 @@ export default class Scatter1_selectYAxis extends Component {
 
     const {selectedCountries} = this.state;
 
-    const {data, onClick} = this.props;
-    const totalSize = data.length;
-    const subsetData = data
-      // remove those prices are 0, can't has 0 in log scale, or either use padding
-      .filter(row => row.price > 0)
-      // uncomment below lines to filter the same way as Robbie's
-      // .filter(row => row.positivity > -0.075 && row.positivity < 0.475)
-      // .filter(row => row.subjectivity > 0.225 && row.subjectivity < 0.775)
-    // randomly sample data, change the value below or pass data directly to reformatedData
-    // I set scatter plot 1 samples size = 10000 with opacity = 0.1, but use 1000 and 0.5 here because there are 12 categories (countries), a little confusing
-    const sampleSize = 1000;
-    const sampledData = shuffle(subsetData).slice(0, sampleSize);
+    const {sampledData, sampleSize, totalSize, onClick} = this.props;
     const reformatedData = sampledData
       .filter(row => selectedCountries[row.country])
       .map(row => ({x: Number(row.price), y: Number(row.points), color: row.country}));
+    // countrySize is smaller than sampleSize cuz some countries is not in the list due to their size is too small
     const countrySize = reformatedData.length;
+
+    // fix axis range
+    const xDomainRange = [Math.min(...sampledData.map(row => row.price)), Math.max(...sampledData.map(row => row.price))]
+    const yDomainRange = [Math.min(...sampledData.map(row => row.points)), Math.max(...sampledData.map(row => row.points))]
 
     // only shows contries with more than 1000 samples, or just the below line
     // const validCountries = [...new Set(sampledData.map(row => row.country))];
@@ -81,13 +75,14 @@ export default class Scatter1_selectYAxis extends Component {
           colorDomain={validCountries}
           colorRange={colorPalatte}
           size={3}
-          opacity={0.5}>
+          opacity={0.5}
+          xDomain={xDomainRange}
+          yDomain={yDomainRange}>
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis 
-            title="Price"/>
-          <YAxis title="points"/>
+          <XAxis/>
+          <YAxis/>
           <ChartLabel
             text={title}
             className="title"
@@ -97,8 +92,24 @@ export default class Scatter1_selectYAxis extends Component {
             style={{
               textAnchor: 'middle',
               fontWeight: 10000
-            }}
-            />
+            }}/>
+          <ChartLabel
+            text="Price"
+            className="alt-x-label"
+            includeMargin={false}
+            xPercent={0.45}
+            yPercent={1.225}/>
+          <ChartLabel
+            text="Points"
+            className="alt-y-label"
+            includeMargin={false}
+            xPercent={-0.09}
+            yPercent={0.5}
+            style={{
+              transform: 'rotate(-90)',
+              textAnchor: 'end',
+              title: {fontSize: '20px'}
+            }}/>
         </XYPlot>
       </div>
     );
