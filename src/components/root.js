@@ -2,7 +2,7 @@ import React from 'react';
 import {csv} from 'd3-fetch';
 import ExampleChart from './example-chart';
 import Scatter1_selectYAxis from './scatter1_selectYAxis';
-import Scatter2_selectCountries from './Scatter2_selectCountries';
+import Scatter2_selectCountries from './scatter2_selectCountries';
 import HexChart from './hex';
 import CountryBars from './country_bar_charts';
 import CountryBar2 from './country_bar2';
@@ -13,6 +13,12 @@ ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita
 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
 voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
 non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+`;
+
+const space = `
+<br>                                                                              
+Space intentionally left blank
+<br>
 `;
 
 class RootComponent extends React.Component {
@@ -59,7 +65,10 @@ class RootComponent extends React.Component {
         <Scatter2_selectCountries data={data[1]}/>
 
         <div>{longBlock}</div>
-        <HexChart data={data[1]}/>
+        <HexChart data={data[1].slice(0, 10000)}/>
+        <br />
+        <br />
+        <br />
         <div>{longBlock}</div>
         <CountryBars data={data[2]}/>
         <CountryBar2 data={data[2]}/>
