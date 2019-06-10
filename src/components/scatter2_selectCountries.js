@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import {shuffle} from '../utils'
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
-// this is resulting from the below commented lines, which select countries with >1000 samples, should have a more elegant way doing it
+// this is resulting from the commented lines under render(), which select countries with >1000 samples, should have a more elegant way doing it
 const validCountries = ["Italy", "US", "Australia", "Argentina", "France", "Spain", "Chile", "New Zealand", "Austria", "South Africa", "Portugal", "Germany"]
 const selectedCountries = validCountries.reduce((acc, cur) => {
   acc[cur] = true;
   return acc
 }, {})
+
+// edited from colorBrewer, not ideal http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+const colorPalatte = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#dcd304','#b15928']
 
 export default class Scatter1_selectYAxis extends Component {
   constructor() {
@@ -23,9 +26,7 @@ export default class Scatter1_selectYAxis extends Component {
     // https://github.com/uber/react-vis/blob/master/docs/xy-plot.md
     // https://github.com/uber/react-vis/blob/master/docs/mark-series.md
 
-    // const {hoveredNode} = this.state;
     const {selectedCountries} = this.state;
-    console.log(selectedCountries)
 
     const {data, onClick} = this.props;
     const totalSize = data.length;
@@ -36,11 +37,12 @@ export default class Scatter1_selectYAxis extends Component {
       // .filter(row => row.positivity > -0.075 && row.positivity < 0.475)
       // .filter(row => row.subjectivity > 0.225 && row.subjectivity < 0.775)
     // randomly sample data, change the value below or pass data directly to reformatedData
-    const sampleSize = 10000;
+    // I set scatter plot 1 samples size = 10000 with opacity = 0.1, but use 1000 and 0.5 here because there are 12 categories (countries), a little confusing
+    const sampleSize = 1000;
     const sampledData = shuffle(subsetData).slice(0, sampleSize);
     const reformatedData = sampledData
       .filter(row => selectedCountries[row.country])
-      .map(row => ({x: Number(row.price), y: Number(row.points)}));
+      .map(row => ({x: Number(row.price), y: Number(row.points), color: row.country}));
     const countrySize = reformatedData.length;
 
     // only shows contries with more than 1000 samples, or just the below line
@@ -50,7 +52,6 @@ export default class Scatter1_selectYAxis extends Component {
     //   return acc
     // }, {})
     // const validCountries = Object.keys(countrySizesCount).filter(key => countrySizesCount[key] > 1000)
-    // console.log(validCountries)
 
     const title = `points vs. price (${countrySize} data within ${sampleSize} randomly sample data from ${totalSize})`
 
@@ -76,9 +77,11 @@ export default class Scatter1_selectYAxis extends Component {
           height={500}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           xType='log'
-          color='darkgreen'
+          colorType="category"
+          colorDomain={validCountries}
+          colorRange={colorPalatte}
           size={3}
-          opacity={0.1}>
+          opacity={0.5}>
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
