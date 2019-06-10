@@ -58,7 +58,7 @@ export default class Scatter1_selectYAxis extends Component {
     return (
       <div>
         <div className="checkbox">
-          {Object.keys(selectedCountries).map(key => {
+          {Object.keys(selectedCountries).map((key, idx) => {
             return (
               <div key={key} className="countries checkbox">
                 <input
@@ -68,7 +68,7 @@ export default class Scatter1_selectYAxis extends Component {
                     selectedCountries[key] = !selectedCountries[key];
                     this.setState({selectedCountries});
                   }}/>
-                {key}
+                <span style={{borderBottom: `3px solid ${colorPalatte[idx]}`}}>{key}</span>
               </div>);
           })}
         </div>
