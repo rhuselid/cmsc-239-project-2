@@ -36,8 +36,9 @@ export default class HexChart extends Component {
           <HexbinSeries
             animation
             className="hexbin-example"
-            onValueClick={d => this.setState({hoveredNode: {'Number of Wines': d.length, 
-                                                            'sample_review':d[0].description.slice(0,80) + '...'}})}
+            onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length, 
+                                                            'sample_review':d[0].description.slice(0,120) + '...'}})}
+            onSeriesMouseOut={d => this.setState({hoveredNode: null})}
             colorRange={['white', 'blue']}
             radius={13}
             style={{
@@ -52,7 +53,7 @@ export default class HexChart extends Component {
             onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length}})}
             onSeriesMouseOut={v => this.setState({hoveredNode: null})}*/ }
           </HexbinSeries>
-          {hoveredNode !== null && <Hint value={hoveredNode} align={{vertical: 'top', horizontal: 'right'}}/>}
+          {hoveredNode !== null && <Hint value={hoveredNode}/>}
         <ChartLabel
             text='Subjectivity vs Positivity'
             className="title"
