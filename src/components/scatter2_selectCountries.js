@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
+import {randomG} from '../utils'
+
 // this is resulting from the commented lines under render(), which select countries with >1000 samples, should have a more elegant way doing it
 const validCountries = ["Italy", "US", "Australia", "Argentina", "France", "Spain", "Chile", "New Zealand", "Austria", "South Africa", "Portugal", "Germany"]
 const selectedCountries = validCountries.reduce((acc, cur) => {
@@ -30,7 +32,7 @@ export default class Scatter1_selectYAxis extends Component {
     const {sampledData, sampleSize, totalSize, onClick} = this.props;
     const reformatedData = sampledData
       .filter(row => selectedCountries[row.country])
-      .map(row => ({x: Number(row.price), y: Number(row.points), color: row.country}));
+      .map(row => ({x: Number(row.price), y: Number(row.points) + randomG(5), color: row.country}));
     // countrySize is smaller than sampleSize cuz some countries is not in the list due to their size is too small
     const countrySize = reformatedData.length;
 
