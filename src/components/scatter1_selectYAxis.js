@@ -44,7 +44,7 @@ export default class Scatter1_selectYAxis extends Component {
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis/>
+          <XAxis tickFormat={v => v} tickValues={[5,10,20,30,40,50,100,200,300,400]}/>
           <YAxis/>
           <ChartLabel
             text={title}
@@ -57,7 +57,7 @@ export default class Scatter1_selectYAxis extends Component {
               fontWeight: 10000
             }}/>
           <ChartLabel
-            text="Price"
+            text="Price ($)"
             className="alt-x-label"
             includeMargin={false}
             xPercent={0.45}
