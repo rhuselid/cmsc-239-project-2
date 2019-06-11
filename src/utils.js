@@ -17,3 +17,13 @@ export function shuffle(arra1) {
   }
   return arra1;
 }
+
+// a random normal function, copied from
+// https://riptutorial.com/javascript/example/8330/random--with-gaussian-distribution
+export function randomG(v){ 
+    var r = 0;
+    for(var i = v; i > 0; i --){
+        r += Math.random();
+    }
+    return r / v;
+}
