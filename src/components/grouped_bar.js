@@ -6,14 +6,15 @@ export default class GroupedBar extends Component {
   constructor() {
     super();
     this.state = {
-      hoveredNode: null,
+      hoveredNode: false,
       country1: 'US',
-      country2: 'Israel'
+      country2: 'Israel',
+      choosen: false
     };
   }
 
   render() {
-    const {country1, country2, hoveredNode} = this.state;
+    const {country1, country2, hoveredNode, choosen} = this.state;
     const {data} = this.props;
     const reformatedRow1 = data.filter(row => row.country === country1);
     const reformatedRow2 = data.filter(row => row.country === country2);
@@ -34,12 +35,12 @@ export default class GroupedBar extends Component {
       yMax = Math.max(rv2['y'], yMax)
       reformatedData2.push(rv2);
     });
-    const title = `Wines of ${country1} vs ${country2}`
+    const title = `Wines of ${country1} vs Wines of ${country2}`
     const establishedCountries = ['US', 'Italy', 'France', 'Portugal', 'Spain', 'Austria'];
     const randomCountries = ['Moldova', 'Lebanon', 'Israel', 'Argentina', 'Slovenia', 'Croatia'];
+    const mouse = {x: null, y: null};
     // help on how to structure this aspect of code:
     // https://codepulse.blog/how-to-create-a-bar-chart-with-react/
-
     return (
       <div>
         <br />
@@ -61,6 +62,16 @@ export default class GroupedBar extends Component {
           onClick={() => this.setState({country2: key})}
           >{key}</button>);
         })}
+        {/*// <DiscreteColorLegend
+        //   title={['Legend']}
+        //   items={[{title: `${country1}`, strokeWidth: 15}, {title: `${country2}`, strokeWidth: 15}]}
+        //   colors={['purple', 'blue']}
+        //   orientation='horizontal'
+        //   width={150}
+        //   height={50}
+        // />
+        */}
+      {/*<h2 style={{"textAlign":"center"}}> Title </h2>*/}
         <XYPlot
           xType="ordinal"
           width={500}
@@ -69,7 +80,6 @@ export default class GroupedBar extends Component {
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           barWidth={0.8}
           fill={'purple'}
-          onValueMouseOver={d => this.setState({hoveredNode: {'Percent of Wines': d.y}})}
         >
           <XAxis 
             style={{text:{stroke: 'none', fill: '#6b6b76', fontWeight: 900}}}
@@ -81,23 +91,35 @@ export default class GroupedBar extends Component {
             animation
             className="bar1"
             data={reformatedData1}
+            onValueMouseOver={v => {
+              this.setState({choosen: 1})
+              this.setState({hoveredNode: v})}}
+            onSeriesMouseOut={v => this.setState({hoveredNode: false})}
+            // onValueMouseOver={event => {
+            //     // const i = {'taste': `Percent of ${event.x} Wines`}
+            //     this.setState({hoveredNode: {'Choosen Country': country1,
+            //                                   'Percent of Wines': `${event.y.toFixed(1)}%`}})}}
+            // onValueMouseOver={v => event => {
+            //   const rv = v;
+            //   rv['Choosen Country'] = country1
+            //   choosen = 1;
+            //   this.setState({hoveredNode: rv})}}
+            // onSeriesMouseOut={v => this.setState({hoveredNode: false})}
           />
           <VerticalBarSeries
             animation
             className="bar1"
             data={reformatedData2}
             fill={'blue'}
+            // onValueMouseOver={event => {
+            //   this.setState({hoveredNode: {'Choosen Country': country2,
+            //                                 'Percent of Wines': `${event.y.toFixed(1)}%`}})
+            // }}
+            onValueMouseOver={v => {
+              this.setState({choosen: 2})
+              this.setState({hoveredNode: v})}}
+            onSeriesMouseOut={v => this.setState({hoveredNode: false})}
           />
-          <DiscreteColorLegend
-            title={['Legend']}
-            items={[{title: `${country1}`, strokeWidth: 15}, {title: `${country2}`, strokeWidth: 15}]}
-            colors={['purple', 'blue']}
-            orientation='horizontal'
-            width={100}
-            height={60}
-            />
-          {hoveredNode !== null && <Hint value={hoveredNode} align={{vertical: 'top', horizontal: 'right'}}/>}
-
           <ChartLabel
             text={title}
             className="title"
@@ -128,7 +150,15 @@ export default class GroupedBar extends Component {
               title: {fontSize: '20px'}
             }}
           />
+          {hoveredNode !== false && <Hint value={hoveredNode}>
+            <div style={{background: 'black'}}>
+              <h3>{choosen === 1 ? country1 : country2}</h3>
+              <p>{`Percent of Wines: ${hoveredNode.y.toFixed(1)}%`}</p>
+            </div>
+          </Hint>}
         </XYPlot>
+        <br />
+        <br />
       </div>
     );
   }
