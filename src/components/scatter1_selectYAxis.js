@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
+import {randomG} from '../utils'
+
 export default class Scatter1_selectYAxis extends Component {
   constructor() {
     super();
@@ -19,7 +21,8 @@ export default class Scatter1_selectYAxis extends Component {
 
     const {sampledData, sampleSize, totalSize} = this.props;
     const reformatedData = sampledData
-      .map(row => ({x: Number(row.price), y: Number(row[yVar])}));
+      .map(row => ({x: Number(row.price), 
+        y: (yVar === 'points') ? Number(row[yVar]) + randomG(5) : Number(row[yVar])}));
     
     const validYVvar = ['points', 'subjectivity', 'positivity'];
 
