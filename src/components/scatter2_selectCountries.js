@@ -32,13 +32,14 @@ export default class Scatter1_selectYAxis extends Component {
     const {sampledData, sampleSize, totalSize, onClick} = this.props;
     const reformatedData = sampledData
       .filter(row => selectedCountries[row.country])
-      .map(row => ({x: Number(row.price), y: Number(row.points) + randomG(5), color: row.country}));
+      // jitter the points using randomG function and -80
+      .map(row => ({x: Number(row.price), y: Number(row.points) - 80 + randomG(5), color: row.country}));
     // countrySize is smaller than sampleSize cuz some countries is not in the list due to their size is too small
     const countrySize = reformatedData.length;
 
     // fix axis range
     const xDomainRange = [Math.min(...sampledData.map(row => row.price)), Math.max(...sampledData.map(row => row.price))]
-    const yDomainRange = [Math.min(...sampledData.map(row => row.points)), Math.max(...sampledData.map(row => row.points))]
+    const yDomainRange = [Math.min(...reformatedData.map(row => row.y)), Math.max(...reformatedData.map(row => row.y))]
 
     // only shows contries with more than 1000 samples, or just the below line
     // const validCountries = [...new Set(sampledData.map(row => row.country))];
@@ -82,7 +83,7 @@ export default class Scatter1_selectYAxis extends Component {
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis tickFormat={v => v} tickValues={[5,10,20,30,40,50,100,200,300,400]}/>
+          <XAxis tickFormat={v => v} tickValues={[10,20,30,40,50,100,200,300,400]}/>
           <YAxis/>
           <ChartLabel
             text={title}
@@ -101,7 +102,7 @@ export default class Scatter1_selectYAxis extends Component {
             xPercent={0.45}
             yPercent={1.225}/>
           <ChartLabel
-            text="Points"
+            text='points (jittered integer)'
             className="alt-y-label"
             includeMargin={false}
             xPercent={-0.09}
