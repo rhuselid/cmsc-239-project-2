@@ -7,7 +7,7 @@ export default class CountryBar2 extends Component {
     super();
     this.state = {
       hoveredNode: null,
-      country: 'Lebanon'
+      country: 'Israel'
     };
   }
 
@@ -40,7 +40,7 @@ export default class CountryBar2 extends Component {
           xType="ordinal"
           width={500}
           height={500}
-          yDomain={[0, 25]}
+          yDomain={[0, 35]}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           barWidth={0.8}
           fill={'blue'}

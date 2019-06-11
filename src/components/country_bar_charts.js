@@ -7,12 +7,12 @@ export default class CountryBars extends Component {
     super();
     this.state = {
       hoveredNode: null,
-      country: 'Italy'
+      country: 'US'
     };
   }
 
   render() {
-    const {country} = this.state;
+    const {country, hoveredNode} = this.state;
     const {data} = this.props;
     const reformatedRow = data.filter(row => row.country === country);
     const reformatedData = [];
@@ -28,6 +28,7 @@ export default class CountryBars extends Component {
     const validCountries = ['US', 'Italy', 'France', 'Moldova', 'Lebanon', 'Israel', 'Portugal', 'Argentina'];
     // help on how to structure this aspect of code:
     // https://codepulse.blog/how-to-create-a-bar-chart-with-react/
+    console.log(hoveredNode)
     return (
       <div>
         {validCountries.map(key => {
@@ -40,10 +41,11 @@ export default class CountryBars extends Component {
           xType="ordinal"
           width={500}
           height={500}
-          yDomain={[0, 25]}
+          yDomain={[0, 35]}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           barWidth={0.8}
           fill={'purple'}
+          onValueMouseOver={d => this.setState({hoveredNode: {'Percent of Wines': d.y}})}
         >
           <XAxis 
             style={{text:{stroke: 'none', fill: '#6b6b76', fontWeight: 900}}}
@@ -56,6 +58,11 @@ export default class CountryBars extends Component {
             className="bar1"
             data={reformatedData}
           />
+          {hoveredNode !== null && <Hint value={hoveredNode} 
+            className="rv-hint" 
+            className="title" 
+            align={{vertical: 'top', horizontal: 'right'}}
+            />}
           <ChartLabel
             text={title}
             className="title"

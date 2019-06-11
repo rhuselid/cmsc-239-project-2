@@ -6,6 +6,7 @@ import Scatter2_selectCountries from './scatter2_selectCountries';
 import HexChart from './hex';
 import CountryBars from './country_bar_charts';
 import CountryBar2 from './country_bar2';
+import GroupedBar from './grouped_bar';
 
 import {shuffle} from '../utils'
 
@@ -78,13 +79,12 @@ class RootComponent extends React.Component {
         <Scatter2_selectCountries sampledData={sampledData} sampleSize={sampleSize} totalSize={totalSize}/>
 
         <div>{longBlock}</div>
-        <HexChart data={sampledData}/>
+        <HexChart data={sampledData.slice(0, 5000)}/>
         <br />
         <br />
         <br />
         <div>{longBlock}</div>
-        <CountryBars data={data[2]}/>
-        <CountryBar2 data={data[2]}/>
+        <GroupedBar data={data[2]} />
         
       </div>
     );
