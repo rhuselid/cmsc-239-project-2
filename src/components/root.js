@@ -42,7 +42,7 @@ class RootComponent extends React.Component {
 
         // data manipulations here
         const totalSize = data[1].length;
-        const sampleSize = 10000;
+        const sampleSize = 5000;
         // randomly sample data df_with_country_groups, according to the value above and remove those prices are 0, can't has 0 in log scale, or either use padding
         const subsetData = data[1].filter(row => row.price > 0)
         const sampledData = shuffle(subsetData).slice(0, sampleSize);
