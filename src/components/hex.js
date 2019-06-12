@@ -6,7 +6,7 @@ export default class HexChart extends Component {
   constructor(props) {
     super(props);
     const posData = props.data.filter(row => row.positivity > -0.08 && row.positivity < 0.48);
-    const realData = posData.filter(row => row.subjectivity > 0.21 && row.subjectivity < 0.79);
+    const realData = posData.filter(row => row.subjectivity > 0.22 && row.subjectivity < 0.79);
     this.state = {
       hoveredNode: null,
       essay: false,
@@ -27,7 +27,7 @@ export default class HexChart extends Component {
           yDomain={[0.2, 0.8]}
           width={600}
           height={600}
-          margin={{left: 70, right: 0, top: 50, bottom: 70}}
+          margin={{left: 70, right: 0, top: 60, bottom: 70}}
           getX={d => d.positivity}
           getY={d => d.subjectivity}
           onMouseLeave={event => {
