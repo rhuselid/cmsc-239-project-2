@@ -62,15 +62,14 @@ export default class GroupedBar extends Component {
           onClick={() => this.setState({country2: key})}
           >{key}</button>);
         })}
-        {/*// <DiscreteColorLegend
-        //   title={['Legend']}
-        //   items={[{title: `${country1}`, strokeWidth: 15}, {title: `${country2}`, strokeWidth: 15}]}
-        //   colors={['purple', 'blue']}
-        //   orientation='horizontal'
-        //   width={150}
-        //   height={50}
-        // />
-        */}
+        <DiscreteColorLegend
+          title={['Legend']}
+          items={[{title: `${country1}`, strokeWidth: 12}, {title: `${country2}`, strokeWidth: 12}]}
+          colors={['purple', 'blue']}
+          orientation='horizontal'
+          width={150}
+          height={50}
+        />
       {/*<h2 style={{"textAlign":"center"}}> Title </h2>*/}
         <XYPlot
           xType="ordinal"
