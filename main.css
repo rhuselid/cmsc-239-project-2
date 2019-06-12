@@ -109,3 +109,7 @@
 .filters {
   width: 22%;
 }
+
+.winehint {
+  pointer-events: auto !important;
+}

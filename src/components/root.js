@@ -51,6 +51,7 @@ class RootComponent extends React.Component {
 
         this.setState({
           data,
+          subsetData2,
           sampledData,
           sampledData2,
           totalSize,
@@ -61,7 +62,7 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const {loading, data, sampledData, sampledData2, totalSize, sampleSize} = this.state;
+    const {loading, data, subsetData2, sampledData, sampledData2, totalSize, sampleSize} = this.state;
     if (loading) {
       return <h1>LOADING</h1>;
     }
@@ -89,7 +90,7 @@ class RootComponent extends React.Component {
         <div>{longBlock}</div>
         <div>{longBlock}</div>
         <GroupedBar data={data[2]} />
-        <Recommender data={sampledData2}/>
+        <Recommender data={subsetData2}/>
         
       </div>
     );
