@@ -20,12 +20,13 @@ export default class HexChart extends Component {
     // much of the structure of this code comes from the react vis documentation:
     // https://github.com/uber/react-vis/blob/master/docs/hexbin-series.md
     return (
-      <div className='center'>
+      <div style={{display: 'flex',  flexDirection: 'column', 
+                    justifyContent:'center', alignItems:'center', height: '100vh'}}>
         <XYPlot 
           xDomain={[-0.1, 0.5]}
           yDomain={[0.2, 0.8]}
-          width={500}
-          height={500}
+          width={600}
+          height={600}
           margin={{left: 55, right: 0, top: 50, bottom: 50}}
           getX={d => d.positivity}
           getY={d => d.subjectivity}

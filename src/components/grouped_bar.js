@@ -43,38 +43,56 @@ export default class GroupedBar extends Component {
     // https://codepulse.blog/how-to-create-a-bar-chart-with-react/
     return (
       <div>
+        {/* help from: https://stackoverflow.com/questions/42125775/reactjs-react-router-how-to-center-div
+        style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '500vh'}} */}
         <br />
-        <i>Choice of Established Wine Producing Country</i>
+        <div style={{display: 'flex',  flexDirection: 'row', 
+                    justifyContent:'center', alignItems:'center', height: '1vh'}}>
+          <i>Choice of Established Wine Producing Country</i>
+        </div>
         <br />
-        {establishedCountries.map(key => {
-        return (<button
-          key={key}
-          onClick={() => this.setState({country1: key})}
-          >{key}</button>);
-        })}
+        <div style={{display: 'flex',  flexDirection: 'row', 
+                    justifyContent:'center', alignItems:'center', height: '1vh'}}>
+          {establishedCountries.map(key => {
+          return (<button
+            key={key}
+            onClick={() => this.setState({country1: key})}
+            >{key}</button>);
+          })}
+        </div>
         <br />
         <br />
-        <i>Choice of Unknown Wine Producing Country</i>
+        <div style={{display: 'flex',  flexDirection: 'row', 
+                    justifyContent:'center', alignItems:'center', height: '1vh'}}>
+          <i>Choice of Unknown Wine Producing Country</i>
+        </div>
         <br />
+        <div style={{display: 'flex',  flexDirection: 'row', 
+                    justifyContent:'center', alignItems:'center', height: '1vh'}}>
         {randomCountries.map(key => {
         return (<button
           key={key}
           onClick={() => this.setState({country2: key})}
           >{key}</button>);
         })}
+        </div>
+        <br />
+        <div style={{display: 'flex',  flexDirection: 'column', 
+                    justifyContent:'center', alignItems:'center', height: '79vh'}}>
         <DiscreteColorLegend
+          className='center'
           title={['Legend']}
           items={[{title: `${country1}`, strokeWidth: 12}, {title: `${country2}`, strokeWidth: 12}]}
           colors={['purple', 'blue']}
           orientation='horizontal'
-          width={150}
+          width={(country1.length + country2.length) * 6 + 40}
           height={50}
         />
       {/*<h2 style={{"textAlign":"center"}}> Title </h2>*/}
         <XYPlot
           xType="ordinal"
-          width={500}
-          height={500}
+          width={550}
+          height={550}
           yDomain={[0, Math.ceil(yMax/5)*5]}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           barWidth={0.8}
@@ -156,6 +174,7 @@ export default class GroupedBar extends Component {
             </div>
           </Hint>}
         </XYPlot>
+        </div>
         <br />
         <br />
       </div>
