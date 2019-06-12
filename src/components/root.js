@@ -6,6 +6,7 @@ import Scatter2_selectCountries from './scatter2_selectCountries';
 import HexChart from './hex';
 import CountryBars from './country_bar_charts';
 import CountryBar2 from './country_bar2';
+import Recommender from './recommender';
 
 import {shuffle} from '../utils'
 
@@ -36,19 +37,23 @@ class RootComponent extends React.Component {
     Promise.all([
     csv('data/sample-data.csv'),
     csv('data/df_with_country_groups.csv'),
-    csv('data/countrys_grouped_by_taste.csv')])
+    csv('data/countrys_grouped_by_taste.csv'),
+    csv('data/df_with_titles.csv')])
       .then(data => {
 
         // data manipulations here
         const totalSize = data[1].length;
         const sampleSize = 10000;
         // randomly sample data df_with_country_groups, according to the value above and remove those prices are 0, can't has 0 in log scale, or either use padding
-        const subsetData = data[1].filter(row => row.price > 0)
+        const subsetData = data[1].filter(row => row.price > 0);
         const sampledData = shuffle(subsetData).slice(0, sampleSize);
+        const subsetData2 = data[3].filter(row => row.price > 0);
+        const sampledData2 = shuffle(subsetData2).slice(0, sampleSize);
 
         this.setState({
           data,
           sampledData,
+          sampledData2,
           totalSize,
           sampleSize,
           loading: false
@@ -57,7 +62,7 @@ class RootComponent extends React.Component {
   }
 
   render() {
-    const {loading, data, sampledData, totalSize, sampleSize} = this.state;
+    const {loading, data, sampledData, sampledData2, totalSize, sampleSize} = this.state;
     if (loading) {
       return <h1>LOADING</h1>;
     }
@@ -85,6 +90,8 @@ class RootComponent extends React.Component {
         <div>{longBlock}</div>
         <CountryBars data={data[2]}/>
         <CountryBar2 data={data[2]}/>
+        <div>{longBlock}</div>
+        <Recommender data={sampledData2}/>
         
       </div>
     );
