@@ -53,7 +53,7 @@ export default class Scatter1_selectYAxis extends Component {
     const title = `points vs. price (${countrySize} data within ${sampleSize} randomly sample data from ${totalSize})`
 
     return (
-      <div className="flex-container" style={{display: "flex", alignItems: "center"}}>
+      <div className="flexContainer" style={{display: "flex", flexDirection: "row", alignItems: "center",  justifyContent:"center"}}>
         <XYPlot
           width={500}
           height={500}
