@@ -3,19 +3,20 @@ import React, {Component} from 'react';
 import {RadialChart, HexbinSeries, ChartLabel, Hint, XYPlot, XAxis, YAxis} from 'react-vis';
 
 export default class HexChart extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const posData = props.data.filter(row => row.positivity > -0.08 && row.positivity < 0.48);
+    const realData = posData.filter(row => row.subjectivity > 0.21 && row.subjectivity < 0.79);
     this.state = {
       hoveredNode: null,
-      essay: false
+      essay: false,
+      reformatedData: realData
     };
   }
 
   render() {
-    const {hoveredNode, essay} = this.state;
-    const {data} = this.props;
-    const posData = data.filter(row => row.positivity > -0.08 && row.positivity < 0.48);
-    const reformatedData = posData.filter(row => row.subjectivity > 0.21 && row.subjectivity < 0.79);
+    const {hoveredNode, essay, reformatedData} = this.state;
+
     // much of the structure of this code comes from the react vis documentation:
     // https://github.com/uber/react-vis/blob/master/docs/hexbin-series.md
     return (
@@ -28,6 +29,10 @@ export default class HexChart extends Component {
           margin={{left: 55, right: 0, top: 50, bottom: 50}}
           getX={d => d.positivity}
           getY={d => d.subjectivity}
+          onMouseLeave={event => {
+            this.setState({essay: false})
+            this.setState({hoveredNode: null})
+          }}
         >
           <XAxis/>
           <YAxis/>
@@ -36,11 +41,9 @@ export default class HexChart extends Component {
             className="hexbin-example"
             onValueMouseOver={v => {
               this.setState({hoveredNode: v})
-              this.setState({essay: '"' + v[0].description.slice(0,220) + '...' + '"'})
+              this.setState({essay: '"' + v[0].description + '"'})
             }}
-            // onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length, 
-            //                                                 'sample_review':d[0].description.slice(0,120) + '...'}})}
-            onMouseLeave={v => this.setState({hoveredNode: null})}
+
             colorRange={['white', 'blue']}
             radius={13}
             style={{
@@ -55,7 +58,6 @@ export default class HexChart extends Component {
             onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length}})}
             onSeriesMouseOut={v => this.setState({hoveredNode: null})}*/ }
           </HexbinSeries>
-          {/*{hoveredNode !== null && <Hint value={hoveredNode}/>}*/}
         <ChartLabel
             text='Subjectivity vs Positivity'
             className="title"
@@ -102,13 +104,9 @@ export default class HexChart extends Component {
               <p>{hoveredNode.length}</p>
             </div>
           </Hint>}
-          <h3>Sample Review</h3>
-          <p style={{color:"blue"}}>{(essay !== false ? essay : '')}</p>
         </XYPlot>
-        <br />
-        <br />
-        <br />
-        <br />
+        <h3>Sample Review</h3>
+        <p style={{color:"blue"}}>{essay !== false ? essay : ''}</p>
       </div>
     );
   }
