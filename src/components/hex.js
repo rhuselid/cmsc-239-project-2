@@ -27,7 +27,7 @@ export default class HexChart extends Component {
           yDomain={[0.2, 0.8]}
           width={600}
           height={600}
-          margin={{left: 55, right: 0, top: 50, bottom: 50}}
+          margin={{left: 70, right: 0, top: 50, bottom: 70}}
           getX={d => d.positivity}
           getY={d => d.subjectivity}
           onMouseLeave={event => {
@@ -75,13 +75,13 @@ export default class HexChart extends Component {
             className="alt-x-label"
             includeMargin={false}
             xPercent={0.45}
-            yPercent={1.225}
+            yPercent={1.2}
           />
           <ChartLabel
             text="Subjectivity"
             className="alt-y-label"
             includeMargin={false}
-            xPercent={-0.09}
+            xPercent={-0.085}
             yPercent={0.5}
             style={{
               transform: 'rotate(-90)',
