@@ -99,3 +99,13 @@
   padding: 6px;
   text-transform: uppercase;
 }
+
+.filterContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.filters {
+  width: 22%;
+}

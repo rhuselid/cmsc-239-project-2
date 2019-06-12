@@ -4,9 +4,8 @@ import ExampleChart from './example-chart';
 import Scatter1_selectYAxis from './scatter1_selectYAxis';
 import Scatter2_selectCountries from './scatter2_selectCountries';
 import HexChart from './hex';
-import CountryBars from './country_bar_charts';
-import CountryBar2 from './country_bar2';
 import Recommender from './recommender';
+import GroupedBar from './grouped_bar';
 
 import {shuffle} from '../utils'
 
@@ -43,7 +42,7 @@ class RootComponent extends React.Component {
 
         // data manipulations here
         const totalSize = data[1].length;
-        const sampleSize = 10000;
+        const sampleSize = 5000;
         // randomly sample data df_with_country_groups, according to the value above and remove those prices are 0, can't has 0 in log scale, or either use padding
         const subsetData = data[1].filter(row => row.price > 0);
         const sampledData = shuffle(subsetData).slice(0, sampleSize);
@@ -83,14 +82,13 @@ class RootComponent extends React.Component {
         <Scatter2_selectCountries sampledData={sampledData} sampleSize={sampleSize} totalSize={totalSize}/>
 
         <div>{longBlock}</div>
-        <HexChart data={sampledData}/>
+        <HexChart data={sampledData.slice(0, 5000)}/>
         <br />
         <br />
         <br />
         <div>{longBlock}</div>
-        <CountryBars data={data[2]}/>
-        <CountryBar2 data={data[2]}/>
         <div>{longBlock}</div>
+        <GroupedBar data={data[2]} />
         <Recommender data={sampledData2}/>
         
       </div>

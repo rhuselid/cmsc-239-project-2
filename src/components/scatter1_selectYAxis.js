@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {XYPlot, XAxis, YAxis, ChartLabel, MarkSeries} from 'react-vis';
 
+import {randomG} from '../utils'
+
 export default class Scatter1_selectYAxis extends Component {
   constructor() {
     super();
@@ -19,7 +21,9 @@ export default class Scatter1_selectYAxis extends Component {
 
     const {sampledData, sampleSize, totalSize} = this.props;
     const reformatedData = sampledData
-      .map(row => ({x: Number(row.price), y: Number(row[yVar])}));
+      // jitter the points using randomG function and -80
+      .map(row => ({x: Number(row.price), 
+        y: (yVar === 'points') ? Number(row[yVar]) - 80 + randomG(5) : Number(row[yVar])}));
     
     const validYVvar = ['points', 'subjectivity', 'positivity'];
 
@@ -44,7 +48,7 @@ export default class Scatter1_selectYAxis extends Component {
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis/>
+          <XAxis tickFormat={v => v} tickValues={[10,20,30,40,50,100,200,300,400]}/>
           <YAxis/>
           <ChartLabel
             text={title}
@@ -57,13 +61,13 @@ export default class Scatter1_selectYAxis extends Component {
               fontWeight: 10000
             }}/>
           <ChartLabel
-            text="Price"
+            text="Price ($)"
             className="alt-x-label"
             includeMargin={false}
             xPercent={0.45}
             yPercent={1.225}/>
           <ChartLabel
-            text={yVar}
+            text={(yVar === 'points') ? 'points (jittered integer)' : yVar}
             className="alt-y-label"
             includeMargin={false}
             xPercent={-0.09}

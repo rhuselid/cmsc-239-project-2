@@ -7,17 +7,15 @@ export default class HexChart extends Component {
     super();
     this.state = {
       hoveredNode: null,
+      essay: false
     };
   }
 
   render() {
-    const {hoveredNode} = this.state;
+    const {hoveredNode, essay} = this.state;
     const {data} = this.props;
     const posData = data.filter(row => row.positivity > -0.08 && row.positivity < 0.48);
     const reformatedData = posData.filter(row => row.subjectivity > 0.21 && row.subjectivity < 0.79);
-    // getX={d => d.positivity > -0.01 ? d.positivity : d.positivity < 0.41 ? d.positivity : null}
-    // getY={d => d.subjectivity > 0.29 ? d.subjectivity : d.subjectivity < 0.71 ? d.subjectivity : null}
-
     // much of the structure of this code comes from the react vis documentation:
     // https://github.com/uber/react-vis/blob/master/docs/hexbin-series.md
     return (
@@ -36,8 +34,13 @@ export default class HexChart extends Component {
           <HexbinSeries
             animation
             className="hexbin-example"
-            onValueClick={d => this.setState({hoveredNode: {'Number of Wines': d.length, 
-                                                            'sample_review':d[0].description.slice(0,80) + '...'}})}
+            onValueMouseOver={v => {
+              this.setState({hoveredNode: v})
+              this.setState({essay: '"' + v[0].description.slice(0,220) + '...' + '"'})
+            }}
+            // onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length, 
+            //                                                 'sample_review':d[0].description.slice(0,120) + '...'}})}
+            onMouseLeave={v => this.setState({hoveredNode: null})}
             colorRange={['white', 'blue']}
             radius={13}
             style={{
@@ -52,7 +55,7 @@ export default class HexChart extends Component {
             onValueMouseOver={d => this.setState({hoveredNode: {'Number of Wines': d.length}})}
             onSeriesMouseOut={v => this.setState({hoveredNode: null})}*/ }
           </HexbinSeries>
-          {hoveredNode !== null && <Hint value={hoveredNode} align={{vertical: 'top', horizontal: 'right'}}/>}
+          {/*{hoveredNode !== null && <Hint value={hoveredNode}/>}*/}
         <ChartLabel
             text='Subjectivity vs Positivity'
             className="title"
@@ -83,7 +86,29 @@ export default class HexChart extends Component {
               title: {fontSize: '20px'}
             }}
           />
+        {/* help on this from: https://github.com/uber/react-vis/blob/master/showcase/plot/hex-heatmap.js*/}
+          {hoveredNode && <Hint
+            xType="literal"
+            yType="literal"
+            getX={d => d.x}
+            getY={d => d.y}
+            value={{
+              x: hoveredNode.x,
+              y: hoveredNode.y,
+              value: hoveredNode.length
+            }}>
+            <div style={{background: 'black'}}>
+              <b>{'Number of Wines'}</b>
+              <p>{hoveredNode.length}</p>
+            </div>
+          </Hint>}
+          <h3>Sample Review</h3>
+          <p style={{color:"blue"}}>{(essay !== false ? essay : '')}</p>
         </XYPlot>
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     );
   }
