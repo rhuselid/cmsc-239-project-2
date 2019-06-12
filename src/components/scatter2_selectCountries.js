@@ -57,7 +57,7 @@ export default class Scatter1_selectYAxis extends Component {
         <XYPlot
           width={600}
           height={600}
-          margin={{left: 50, right: 0, top: 50, bottom: 50}}
+          margin={{left: 60, right: 20, top: 70, bottom: 60}}
           xType='log'
           colorType="category"
           colorDomain={validCountries}
@@ -69,7 +69,7 @@ export default class Scatter1_selectYAxis extends Component {
           <MarkSeries
             className="scatter1"
             data={reformatedData}/>
-          <XAxis tickFormat={v => v} tickValues={[10,20,30,40,50,100,200,300,400]}/>
+          <XAxis tickFormat={v => v} tickValues={[xDomainRange[0],10,20,30,40,50,100,200,300,400,xDomainRange[1]]}/>
           <YAxis/>
           <ChartLabel
             text={title}
