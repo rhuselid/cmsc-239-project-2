@@ -55,8 +55,8 @@ export default class Scatter1_selectYAxis extends Component {
     return (
       <div className="flexContainer" style={{display: "flex", flexDirection: "row", alignItems: "center",  justifyContent:"center"}}>
         <XYPlot
-          width={500}
-          height={500}
+          width={600}
+          height={600}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           xType='log'
           colorType="category"

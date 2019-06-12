@@ -40,8 +40,8 @@ export default class Scatter1_selectYAxis extends Component {
           })}
         </div>
         <XYPlot
-          width={500}
-          height={500}
+          width={600}
+          height={600}
           margin={{left: 50, right: 0, top: 50, bottom: 50}}
           xType='log'
           color='darkblue'
