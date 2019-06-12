@@ -18,12 +18,13 @@ export function shuffle(arra1) {
   return arra1;
 }
 
-// a random normal function, copied from
+// a approximated random normal function with mean 0, copied from
 // https://riptutorial.com/javascript/example/8330/random--with-gaussian-distribution
+// not actually normal because it's bounded with in (-0.5, 0.5), which is good because we use it to display jittered integers
 export function randomG(v){ 
     var r = 0;
     for(var i = v; i > 0; i --){
         r += Math.random();
     }
-    return r / v;
+    return (r / v - 0.5);
 }

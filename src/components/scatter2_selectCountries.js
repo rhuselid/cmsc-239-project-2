@@ -40,7 +40,7 @@ export default class Scatter1_selectYAxis extends Component {
 
     // fix axis range
     const xDomainRange = [Math.min(...sampledData.map(row => row.price)), Math.max(...sampledData.map(row => row.price))]
-    const yDomainRange = [Math.min(...sampledData.map(row => row.points)), Math.max(...sampledData.map(row => row.points))]
+    const yDomainRange = [Math.min(...sampledData.map(row => row.points))-0.5, Math.max(...sampledData.map(row => row.points))+0.5]
 
     // only shows contries with more than 1000 samples, or just the below line
     // const validCountries = [...new Set(sampledData.map(row => row.country))];
