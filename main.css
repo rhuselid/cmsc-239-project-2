@@ -114,6 +114,21 @@
   pointer-events: auto !important;
 }
 
+.recommender-vis {
+  display: flex;
+  justify-content: center;
+}
+
+.article {
+  margin: 5%;
+}
+
+.article-title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 div.flexContainer {
   /*don't know why it can't select my container??*/
   display: "flex";

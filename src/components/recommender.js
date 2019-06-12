@@ -68,6 +68,7 @@ export default class Recommender extends Component {
       onChange={value => this.setState({ value })} />
     </div>
     </div>
+    <div className='recommender-vis'>
     {topWines.length === 0 ? <p>Sorry, no wines match your criteria.</p> : null}
     <XYPlot
       width={500}
@@ -75,7 +76,7 @@ export default class Recommender extends Component {
       margin={{left: 50, right: 0, top: 50, bottom: 50}}
       size={5}
       xDomain={[this.state.value.min > 5 ? this.state.value.min - 5 : 0, this.state.value.max + 5]}
-      yDomain={[80, 100]}
+      yDomain={[80, 100]}>
       onMouseLeave={() => this.setState({tooltipVal: null})}>
       <MarkSeries
         className="topWines"
@@ -107,6 +108,7 @@ export default class Recommender extends Component {
           title: {fontSize: '20px'}
         }}/>
     </XYPlot>
+    </div>
     </div>
   }
 }
