@@ -110,7 +110,12 @@ export default class Scatter1_selectYAxis extends Component {
                     selectedCountries[key] = !selectedCountries[key];
                     this.setState({selectedCountries});
                   }}/>
-                <label style={{borderBottom: `3px solid ${colorPalatte[idx]}`}}>{key}</label>
+                <label 
+                  style={{borderBottom: `3px solid ${colorPalatte[idx]}`}}
+                  onClick={() => {
+                    selectedCountries[key] = !selectedCountries[key];
+                    this.setState({selectedCountries});
+                  }}>{key}</label>
               </div>);
           })}
         </div>
