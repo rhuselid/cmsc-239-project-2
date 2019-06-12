@@ -77,7 +77,7 @@ export default class Recommender extends Component {
       size={5}
       xDomain={[this.state.value.min > 5 ? this.state.value.min - 5 : 0, this.state.value.max + 5]}
       yDomain={[80, 100]}
-      onMouseLeave={() => this.setState({tooltipVal: null})}>
+      onMouseLeave={e => e.relatedTarget.classList.contains("winehint") ? null : this.setState({tooltipVal: null})}>
       <MarkSeries
         className="topWines"
         data={topWines}
