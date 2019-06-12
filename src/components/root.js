@@ -90,9 +90,6 @@ class RootComponent extends React.Component {
           <p>Feel free to explore how the reviews differ in tone along the axes review positivity and subjectivity.</p>
         </div>
         <HexChart data={sampledData.slice(0, 5000)}/>
-        <br />
-        <br />
-        <br />
         <div className="article">
           <p>We next decided to investigate different wine regions, thinking that some nations might have better climates and resources or might just be more skilled in wine production. Lots of people vacation in the famous vineyards of France and Italy, could their wines be the ultimate gold standard? Below is another scatterplot comparing price and points – we invite you to try out different countries and compare their scores.</p>
         </div>
