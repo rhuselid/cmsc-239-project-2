@@ -40,7 +40,7 @@ export default class Scatter1_selectYAxis extends Component {
 
     // fix axis range
     const xDomainRange = [Math.min(...sampledData.map(row => row.price)), Math.max(...sampledData.map(row => row.price))]
-    const yDomainRange = [Math.min(...reformatedData.map(row => row.y)), Math.max(...reformatedData.map(row => row.y))]
+    const yDomainRange = [Math.min(...sampledData.map(row => row.points)), Math.max(...sampledData.map(row => row.points))]
 
     // only shows contries with more than 1000 samples, or just the below line
     // const validCountries = [...new Set(sampledData.map(row => row.country))];
@@ -105,8 +105,8 @@ export default class Scatter1_selectYAxis extends Component {
               <div key={key} className="countries checkbox">
                 <input
                   type="checkbox"
-                  defaultChecked={selectedCountries[key] ? "{true}" : ""}
-                  onClick={() => {
+                  checked={selectedCountries[key]}
+                  onChange={() => {
                     selectedCountries[key] = !selectedCountries[key];
                     this.setState({selectedCountries});
                   }}/>
