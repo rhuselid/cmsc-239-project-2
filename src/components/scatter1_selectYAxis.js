@@ -21,9 +21,9 @@ export default class Scatter1_selectYAxis extends Component {
 
     const {sampledData, sampleSize, totalSize} = this.props;
     const reformatedData = sampledData
-      // jitter the points using randomG function and -80
+      // jitter the points using randomG function and
       .map(row => ({x: Number(row.price), 
-        y: (yVar === 'points') ? Number(row[yVar]) - 80 + randomG(5) : Number(row[yVar])}));
+        y: (yVar === 'points') ? Number(row[yVar]) + randomG(5) : Number(row[yVar])}));
     
     const validYVvar = ['points', 'subjectivity', 'positivity'];
 
