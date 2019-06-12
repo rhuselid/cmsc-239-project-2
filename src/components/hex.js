@@ -107,7 +107,7 @@ export default class HexChart extends Component {
           </Hint>}
         </XYPlot>
         <h3>Sample Review</h3>
-        <p style={{color:"blue"}}>{essay !== false ? essay : ''}</p>
+        <p style={{color:"blue", margin:'5%'}}>{essay !== false ? essay : ''}</p>
       </div>
     );
   }

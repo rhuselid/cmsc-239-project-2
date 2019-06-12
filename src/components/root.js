@@ -87,7 +87,8 @@ class RootComponent extends React.Component {
         <div className="article">
           <p>The above graph plots price as compared to a few different variables: points, subjectivity, and positivity. The points are scores out of 100, and the subjectivity and positivity values come from a text sentiment analysis that we performed on the wine reviews using a python library called WordBlob. If we compare price and points, we see that there seems to be a positive correlation – wines that cost more tend to score higher. However, when comparing price and positivity, we don’t see much of a trend. Perhaps reviewers feel inclined to give more expensive wines a higher score, to justify the money they spent?</p>
           <p>The above results prompt a question: could positivity be a more reliable indicator than a numerical score? From our text sentiment analysis, we decided to investigate the relationship between subjectivity and positivity. We found a reasonably strong correlation: reviewers tended to be more subjective about wines they enjoyed, possibly casting doubt on the usefulness of their reviews.</p>
-          <p>Feel free to explore how the reviews differ in tone along the axes review positivity and subjectivity.</p>
+          <p>For reference, the Natural Language Processing tool we used produced subjectivity scores between 0 and 1 and positivity scores between -1 and 1. We display a portion of those ranges wherein most of the the reviews fall.</p>
+          <p>Feel free to explore how the reviews differ in tone along the axes review positivity and subjectivity by mousing over different hexes on the chart.</p>
         </div>
         <HexChart data={sampledData.slice(0, 5000)}/>
         <div className="article">
