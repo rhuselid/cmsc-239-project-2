@@ -5,8 +5,9 @@ import {randomG} from '../utils'
 
 // this is resulting from the commented lines under render(), which select countries with >1000 samples, should have a more elegant way doing it
 const validCountries = ["Italy", "US", "Australia", "Argentina", "France", "Spain", "Chile", "New Zealand", "Austria", "South Africa", "Portugal", "Germany"]
+const defaultCheckedCountries = ['Italy', 'Argentina']
 const selectedCountries = validCountries.reduce((acc, cur) => {
-  acc[cur] = true;
+  acc[cur] = (defaultCheckedCountries.indexOf(cur) !== -1) ? true : false;
   return acc
 }, {})
 
@@ -59,7 +60,7 @@ export default class Scatter1_selectYAxis extends Component {
               <div key={key} className="countries checkbox">
                 <input
                   type="checkbox"
-                  defaultChecked
+                  checked={(defaultCheckedCountries.indexOf(key) !== -1) ? "true" : ""}
                   onClick={() => {
                     selectedCountries[key] = !selectedCountries[key];
                     this.setState({selectedCountries});
