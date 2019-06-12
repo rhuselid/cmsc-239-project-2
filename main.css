@@ -113,3 +113,11 @@
 .winehint {
   pointer-events: auto !important;
 }
+
+div.flexContainer {
+  /*don't know why it can't select my container??*/
+  display: "flex";
+  flexDirection: "row";
+  alignItems: "center";
+  justifyContent:"center"
+}
