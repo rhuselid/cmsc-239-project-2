@@ -53,7 +53,7 @@ export default class Scatter1_selectYAxis extends Component {
     const title = `points vs. price (${countrySize} data within ${sampleSize} randomly sample data from ${totalSize})`
 
     return (
-      <div class="flex-container" style={{display: "flex", alignItems: "center"}}>
+      <div className="flex-container" style={{display: "flex", alignItems: "center"}}>
         <XYPlot
           width={500}
           height={500}
@@ -105,7 +105,7 @@ export default class Scatter1_selectYAxis extends Component {
               <div key={key} className="countries checkbox">
                 <input
                   type="checkbox"
-                  checked={selectedCountries[key] ? "true" : ""}
+                  defaultChecked={selectedCountries[key] ? "{true}" : ""}
                   onClick={() => {
                     selectedCountries[key] = !selectedCountries[key];
                     this.setState({selectedCountries});
