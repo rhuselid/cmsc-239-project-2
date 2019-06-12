@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
 import InputRange from 'react-input-range';
-import {XYPlot, XAxis, YAxis, MarkSeries, Hint} from 'react-vis';
+import {XYPlot, XAxis, YAxis, MarkSeries, ChartLabel, Hint} from 'react-vis';
 
 export default class Recommender extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class Recommender extends Component {
       .filter(row => row.price >= this.state.value.min)
       .filter(row => row.price <= this.state.value.max)
       .sort((a, b) => b.points - a.points);
-    const topWines = filteredWines.slice(0, 3).map(row => ({x: Number(row.price), y: Number(row.points), color: 'black', d: row}));
+    const topWines = filteredWines.slice(0, 5).map(row => ({x: Number(row.price), y: Number(row.points), color: 'black', d: row}));
     console.log([this.state.value.min > 5 ? this.state.value.min - 5 : 0, this.state.value.max + 5]);
     console.log(topWines);
     return <div>
@@ -40,45 +40,50 @@ export default class Recommender extends Component {
     <div className='filters'>
     <Select options={this.state.countries}
       closeMenuOnSelect
+      isClearable
       placeholder="Pick a country" 
-      onChange={d => this.setState({selectedCountry: d.value})}/>
+      onChange={d => this.setState({selectedCountry: d ? d.value : null})}/>
     </div>
     <div className='filters'>
     <Select options={this.state.regions}
       closeMenuOnSelect
+      isClearable
       placeholder="Pick a region"
-      onChange={d => this.setState({selectedRegion: d.value})}/>
+      onChange={d => this.setState({selectedRegion: d ? d.value : null})}/>
     </div>
     <div className='filters'>
     <Select options={this.state.varieties}
       closeMenuOnSelect
+      isClearable
       placeholder="Pick a variety"
-      onChange={d => this.setState({selectedVariety: d.value})}/>
+      onChange={d => this.setState({selectedVariety: d ? d.value : null})}/>
     </div>
     <div className='filters'>
     <InputRange 
-      maxValue={350}
+      maxValue={500}
       minValue={0}
       step={1}
+      formatLabel={(val, t) => `$${val}`}
       value={this.state.value}
       onChange={value => this.setState({ value })} />
     </div>
     </div>
+    {topWines.length === 0 ? <p>Sorry, no wines match your criteria.</p> : null}
     <XYPlot
       width={500}
       height={500}
       margin={{left: 50, right: 0, top: 50, bottom: 50}}
       size={5}
       xDomain={[this.state.value.min > 5 ? this.state.value.min - 5 : 0, this.state.value.max + 5]}
-      yDomain={[0, 100]}>
+      yDomain={[80, 100]}
+      onMouseLeave={() => this.setState({tooltipVal: null})}>
       <MarkSeries
         className="topWines"
         data={topWines}
-        onValueMouseOver={val => this.setState({tooltipVal: val})}
-        onValueMouseOut={() => this.setState({tooltipVal: null})}/>
-      {this.state.tooltipVal ? <Hint value={this.state.tooltipVal}>
+        onValueMouseOver={val => this.setState({tooltipVal: val})}/>
+      {this.state.tooltipVal ? <Hint value={this.state.tooltipVal} className="winehint">
         <a href={`https://www.google.com/search?q=${this.state.tooltipVal.d.title}`}
-          rel="noopener noreferrer" target="_blank">
+          rel="noopener noreferrer" target="_blank" style={{color: "yellow"}}>
           {this.state.tooltipVal.d.title}</a>
         <p>Price: ${this.state.tooltipVal.d.price}</p>
         <p>Points: {this.state.tooltipVal.d.points}</p>
@@ -86,6 +91,21 @@ export default class Recommender extends Component {
         </Hint> : null}
       <XAxis />
       <YAxis />
+      <ChartLabel
+        text="Price ($)"
+        includeMargin={false}
+        xPercent={0.45}
+        yPercent={1.225}/>
+      <ChartLabel
+        text="Points"
+        includeMargin={false}
+        xPercent={-0.09}
+        yPercent={0.6}
+        style={{
+          transform: 'rotate(-90)',
+          textAnchor: 'end',
+          title: {fontSize: '20px'}
+        }}/>
     </XYPlot>
     </div>
   }
