@@ -5,13 +5,13 @@ import {randomG} from '../utils'
 
 // this is resulting from the commented lines under render(), which select countries with >1000 samples, should have a more elegant way doing it
 const validCountries = ["Italy", "US", "Australia", "Argentina", "France", "Spain", "Chile", "New Zealand", "Austria", "South Africa", "Portugal", "Germany"]
-const defaultCheckedCountries = ['Italy', 'Argentina']
-const selectedCountries = validCountries.reduce((acc, cur) => {
+const defaultCheckedCountries = ['Italy', 'France']
+const defaultSelectedCountries = validCountries.reduce((acc, cur) => {
   acc[cur] = (defaultCheckedCountries.indexOf(cur) !== -1) ? true : false;
   return acc
 }, {})
 
-// edited from colorBrewer, not ideal http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+// edited from colorBrewer, not super ideal http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
 const colorPalatte = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#dcd304','#b15928']
 
 export default class Scatter1_selectYAxis extends Component {
@@ -19,7 +19,7 @@ export default class Scatter1_selectYAxis extends Component {
     super();
     this.state = {
       hoveredNode: null,
-      selectedCountries: selectedCountries
+      selectedCountries: defaultSelectedCountries
     };
   }
 
@@ -33,8 +33,8 @@ export default class Scatter1_selectYAxis extends Component {
     const {sampledData, sampleSize, totalSize, onClick} = this.props;
     const reformatedData = sampledData
       .filter(row => selectedCountries[row.country])
-      // jitter the points using randomG function and -80
-      .map(row => ({x: Number(row.price), y: Number(row.points) - 80 + randomG(5), color: row.country}));
+      // jitter the points using randomG function and
+      .map(row => ({x: Number(row.price), y: Number(row.points)+ randomG(5), color: row.country}));
     // countrySize is smaller than sampleSize cuz some countries is not in the list due to their size is too small
     const countrySize = reformatedData.length;
 
@@ -53,22 +53,7 @@ export default class Scatter1_selectYAxis extends Component {
     const title = `points vs. price (${countrySize} data within ${sampleSize} randomly sample data from ${totalSize})`
 
     return (
-      <div>
-        <div className="checkbox">
-          {Object.keys(selectedCountries).map((key, idx) => {
-            return (
-              <div key={key} className="countries checkbox">
-                <input
-                  type="checkbox"
-                  checked={(defaultCheckedCountries.indexOf(key) !== -1) ? "true" : ""}
-                  onClick={() => {
-                    selectedCountries[key] = !selectedCountries[key];
-                    this.setState({selectedCountries});
-                  }}/>
-                <label style={{borderBottom: `3px solid ${colorPalatte[idx]}`}}>{key}</label>
-              </div>);
-          })}
-        </div>
+      <div class="flex-container" style={{display: "flex", alignItems: "center"}}>
         <XYPlot
           width={500}
           height={500}
@@ -78,7 +63,7 @@ export default class Scatter1_selectYAxis extends Component {
           colorDomain={validCountries}
           colorRange={colorPalatte}
           size={3}
-          opacity={0.3}
+          opacity={0.5}
           xDomain={xDomainRange}
           yDomain={yDomainRange}>
           <MarkSeries
@@ -114,6 +99,21 @@ export default class Scatter1_selectYAxis extends Component {
               title: {fontSize: '20px'}
             }}/>
         </XYPlot>
+        <div className="checkbox">
+          {Object.keys(selectedCountries).map((key, idx) => {
+            return (
+              <div key={key} className="countries checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectedCountries[key] ? "true" : ""}
+                  onClick={() => {
+                    selectedCountries[key] = !selectedCountries[key];
+                    this.setState({selectedCountries});
+                  }}/>
+                <label style={{borderBottom: `3px solid ${colorPalatte[idx]}`}}>{key}</label>
+              </div>);
+          })}
+        </div>
       </div>
     );
   }
