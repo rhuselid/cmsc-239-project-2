@@ -30,13 +30,15 @@ export default class Scatter1_selectYAxis extends Component {
     const title = `${yVar} vs. price (randomly sample ${sampleSize} data from ${totalSize})`
 
     return (
-      <div>
-        {validYVvar.map(key => {
-        return (<button
-          key={key}
-          onClick={() => this.setState({yVar: key})}
-          >{key}</button>);
-        })}
+      <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
+        <div className="buttons">
+          {validYVvar.map(key => {
+          return (<button
+            key={key}
+            onClick={() => this.setState({yVar: key})}
+            >{key}</button>);
+          })}
+        </div>
         <XYPlot
           width={500}
           height={500}
